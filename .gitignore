@@ -3,4 +3,4 @@
 *.log
 */logs
 *.sh
-out
+out/

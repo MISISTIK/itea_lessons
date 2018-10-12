@@ -4,9 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class DZ_2_1_FileManager {
 
@@ -15,6 +18,8 @@ public class DZ_2_1_FileManager {
     private static String path = System.getProperty("user.dir").replace('\\', '/');
     private static JTextField tf = new JTextField();
     private static JTextPane tp = new JTextPane();
+    private static List<String> txtList = Arrays.asList("txt", "log", "java", "xml", "properties","gitignore","sh","ini");
+    private static List<String> imgList = Arrays.asList("jpg", "jpeg", "png", "ico", "bmp");
 
     public static void main(String[] args) {
         Init();
@@ -40,8 +45,32 @@ public class DZ_2_1_FileManager {
                     path = path.equals("/") ? "/" + dir : path + "/" + dir;
                     list.setListData(getDirList(path));
                 }
+            } else {
+                sel = sel.replace("DIR", "").trim();
+                File f = new File(path + "/" + sel);
+                if (f.isFile()) {
+                    String ext = (f.getName().substring(f.getName().lastIndexOf(".") + 1));
+                    if (txtList.contains(ext)) {
+                        try {
+                            Scanner in = new Scanner(f);
+                            in.useDelimiter("\n");
+                            StringBuilder sb = new StringBuilder();
+                            while (in.hasNext()) {
+                                sb.append(in.next()).append("\n");
+                            }
+                            tp.setText(sb.toString());
+                        } catch (FileNotFoundException e) {
+                            JOptionPane.showMessageDialog(frame, path + "/" + sel + " not found");
+                            e.printStackTrace();
+                        }
+                    }
+                    if (imgList.contains(ext)) {
+                        tp.setText("");
+                        tp.insertIcon(new ImageIcon(path + "/" + sel));
+                    }
+                }
+                tf.setText(path);
             }
-            tf.setText(path);
         }
     }
 
@@ -104,7 +133,6 @@ public class DZ_2_1_FileManager {
         frame.setLocation((int) (screenSize.getWidth() / 2) - (width / 2), (int) (screenSize.getHeight() / 2) - (height / 2));
 
         tp.setEditable(false);
-//      tp.insertIcon(new ImageIcon("resources/img/pudge_img.png"));
 
         String[] sl = getDirList(path);
         list.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));

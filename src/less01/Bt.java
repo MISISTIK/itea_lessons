@@ -1,4 +1,4 @@
-package itea.less01;
+package less01;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

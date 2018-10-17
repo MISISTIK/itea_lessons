@@ -1,48 +1,43 @@
 package less02;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class MainM {
-    public static void main(String[] args) throws CloneNotSupportedException {
-        Dog dog = new Dog("Susleg",5);
-        Owner owner = new Owner("Me");
-        dog.setOwner(owner);
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	public static void main(String[] args) throws CloneNotSupportedException, ClassNotFoundException, IOException {
+		Dog dog = new Dog("Susleg", 5);
+		Owner owner=new Owner("Max");
+		dog.setOwner(owner);
+		System.out.println(dog);
+		
+	//	ByteArrayOutputStream baos=new ByteArrayOutputStream();
+		FileOutputStream fos=new FileOutputStream("mydog.bin");
+		ObjectOutputStream oos=new ObjectOutputStream(fos);
+		oos.writeObject(dog);
+		fos.close();
+		
+		FileInputStream fis=new FileInputStream("mydog.bin");
+		ObjectInputStream ois=new ObjectInputStream(fis);
+		Dog cloneDog=(Dog) ois.readObject();
+		System.out.println("Clone: "+cloneDog);
+		/*
+		ByteArrayInputStream bais=new ByteArrayInputStream(
+				baos.toByteArray());
+		ObjectInputStream ois=new ObjectInputStream(bais);
+		Dog cloneDog=(Dog) ois.readObject();
+		
+		//Dog cloneDog=(Dog) dog.clone();
+		dog.setName("Alex");
+		owner.setName("Jane");
+		//dog.setOwner(owner);
+		System.out.println("Clone: "+cloneDog);
+		System.out.println("Origin: "+dog);*/
+	}
 
-
-        try {
-            FileOutputStream fos = new FileOutputStream("dog1.bin");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(dog);
-            fos.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Dog cloneDog1 = null;
-
-        try {
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            FileInputStream fis = new FileInputStream("dog1.bin");
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            cloneDog1 = (Dog) ois.readObject();
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-        Dog cloneDog = (Dog) dog.clone();
-        dog.setName("Alex");
-        owner.setName("Jane");
-        dog.setOwner(owner);
-
-        System.out.println("Clone: " + cloneDog);
-        System.out.println("Clone1: " + cloneDog1);
-
-    }
 }

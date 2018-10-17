@@ -4,9 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -60,7 +57,6 @@ public class DZ_2 {
         group.add(rb_de);
 
         JLabel label = new JLabel("");
-
 
         JPanel p = new JPanel();
         p.add(rb_en);

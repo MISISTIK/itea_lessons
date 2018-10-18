@@ -4,3 +4,5 @@
 */logs
 *.sh
 out/
+*.png
+*.jpg

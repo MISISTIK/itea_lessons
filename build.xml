@@ -1,0 +1,25 @@
+<project name="ProjectNoName" default="all">
+    <property name = "builtdir" value = "build"/>
+    <target name="mkdir">
+        <mkdir dir="${builtdir}/classes" />
+        <echo>Creating directory for build</echo>
+    </target>
+    <target name="compile" depends="mkdir" description="compiling project">
+        <javac includeantruntime="false" classpath="lib/Pudge.jar" destdir="${builtdir}/classes">
+            <src path="src"/>
+        </javac>
+        <echo>Compile project...</echo>
+    </target>
+    <target name="makejar" depends="compile" description="making jar file">
+        <jar destfile="build/MyFirstAntJarFile.jar">
+            <fileset dir="${builtdir}/classes">
+                <include name="**/*.class" />
+            </fileset>
+            <zipgroupfileset dir="lib" includes="*.jar" />
+
+        </jar>
+    </target>
+    <target name="all" depends="makejar" description="demo target">
+        <echo>Building done</echo>
+    </target>
+</project>

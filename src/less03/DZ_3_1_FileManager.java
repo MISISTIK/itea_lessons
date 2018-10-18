@@ -16,12 +16,9 @@ public class DZ_3_1_FileManager extends JFrame {
     private String path = System.getProperty("user.dir").replace('\\', '/');
     private JTextField tf = new JTextField();
     private JTextPane tp = new JTextPane();
-    private List<String> txtList = Arrays.asList("txt", "log", "java", "xml", "properties","gitignore","sh","ini");
+    private List<String> txtList = Arrays.asList("txt", "log", "java", "xml", "properties", "gitignore", "sh", "ini");
     private List<String> imgList = Arrays.asList("jpg", "jpeg", "png", "ico", "bmp");
 
-    public static void main(String[] args) {
-        new DZ_3_1_FileManager();
-    }
 
     private void folderAction() {
         String sel = list.getSelectedValue();
@@ -128,6 +125,36 @@ public class DZ_3_1_FileManager extends JFrame {
 
         tp.setEditable(false);
 
+        JButton buttonCopy = new JButton();
+        buttonCopy.setPreferredSize(new Dimension(100, 20));
+        buttonCopy.setText("Copy F5");
+
+        JButton buttonMove = new JButton();
+        buttonMove.setPreferredSize(new Dimension(100, 20));
+        buttonMove.setText("Move F6");
+
+        JButton buttonNewFolder = new JButton();
+        buttonNewFolder.setPreferredSize(new Dimension(150, 20));
+        buttonNewFolder.setText("New folder F7");
+        buttonNewFolder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String newFolderName = JOptionPane.showInputDialog("Input the new folder's name:");
+                try {
+                    if (newFolderName.matches("[[\\w]~@#$%^\\-_(){}'`]+")) {
+                        if (new File(path + "/" + newFolderName).mkdir()) {
+                            JOptionPane.showMessageDialog(null, "Folder " + newFolderName + " was created");
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Name \"" + newFolderName + "\" not valid as a folder name");
+                    }
+                } catch (NullPointerException ignored) {
+                    ;
+                }
+
+            }
+        });
+
         String[] sl = getDirList(path);
         list.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
         list.addMouseListener(new MouseAdapter() {
@@ -154,6 +181,9 @@ public class DZ_3_1_FileManager extends JFrame {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     folderAction();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_F7) {
+                    buttonNewFolder.doClick();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_UP && list.getSelectedValue() == null) {
                     list.setSelectedIndex(0);
@@ -217,28 +247,7 @@ public class DZ_3_1_FileManager extends JFrame {
         };
 
 
-        JButton buttonCopy = new JButton();
-        buttonCopy.setPreferredSize(new Dimension(100,20));
-        buttonCopy.setText("Copy F5");
 
-        JButton buttonMove = new JButton();
-        buttonMove.setPreferredSize(new Dimension(100,20));
-        buttonMove.setText("Move F6");
-
-        JButton buttonNewFolder = new JButton();
-        buttonNewFolder.setPreferredSize(new Dimension(150,20));
-        buttonNewFolder.setText("New folder F7");
-        buttonNewFolder.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String newFolderName = JOptionPane.showInputDialog("Input the new folder's name:");
-                if (newFolderName.matches("[[\\w]~@#$%^\\-_(){}'`]+")) {
-                    new File(path+"/"+newFolderName).mkdir();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Name \"" + newFolderName + "\" not valid as a folder name");
-                }
-
-            }
-        });
 
         JPanel infoPanel = new JPanel(new FlowLayout());
         infoPanel.add(buttonCopy);
@@ -248,25 +257,25 @@ public class DZ_3_1_FileManager extends JFrame {
         int minusValue = 40;
         JSplitPane spDownBar = new JSplitPane(JSplitPane.VERTICAL_SPLIT, spv, infoPanel) {
             {
-                setDividerLocation(getHeight()-minusValue);
+                setDividerLocation(getHeight() - minusValue);
                 setDividerSize(5);
             }
 
             @Override
             public int getDividerLocation() {
-                return getHeight()-minusValue;
+                return getHeight() - minusValue;
             }
 
             @Override
             public int getLastDividerLocation() {
-                return getHeight()-minusValue;
+                return getHeight() - minusValue;
             }
 
         };
 
         addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent evt) {
-                spDownBar.setDividerLocation(getHeight()-minusValue);
+                spDownBar.setDividerLocation(getHeight() - minusValue);
                 sp.setDividerLocation(getWidth() / 2);
             }
         });
@@ -274,5 +283,9 @@ public class DZ_3_1_FileManager extends JFrame {
 
         add(spDownBar);
         setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        new DZ_3_1_FileManager();
     }
 }

@@ -32,7 +32,7 @@ public class DZ_2_1_FileManager {
     private static void folderAction() {
         String sel = list.getSelectedValue();
         if (sel != null) {
-            if (sel.equals("..")) {
+            if (sel.equals("src/test")) {
                 String dir = new File(path).getParent();
                 if (dir != null) {
                     path = dir;
@@ -86,7 +86,7 @@ public class DZ_2_1_FileManager {
     private static void getInfoAction() {
         String sel = list.getSelectedValue().replace("DIR", "").trim();
         if (sel != null) {
-            if (!sel.equals("..")) {
+            if (!sel.equals("src/test")) {
                 tp.setText(getFileInfoString(new File(path + "/" + sel)));
             }
         }
@@ -98,7 +98,7 @@ public class DZ_2_1_FileManager {
             if (dir.isDirectory()) {
                 File[] files = dir.listFiles();
                 List<String> res = new ArrayList<>();
-                res.add("..");
+                res.add("src/test");
                 String fname;
                 int fnameMaxLength = 30;
                 for (File f : files) {

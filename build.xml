@@ -1,22 +1,26 @@
 <project name="ProjectNoName" default="all">
-    <property name = "builtdir" value = "build"/>
+    <property name="builtdir" value="build"/>
+    <property name="src_path" value="src/main/java/dz_FileManager"/>
     <target name="mkdir">
-        <mkdir dir="${builtdir}/classes" />
+        <mkdir dir="${builtdir}/classes"/>
         <echo>Creating directory for build</echo>
     </target>
     <target name="compile" depends="mkdir" description="compiling project">
-        <javac includeantruntime="false" classpath="lib/Pudge.jar" destdir="${builtdir}/classes">
-            <src path="src"/>
+        <javac includeantruntime="false" destdir="${builtdir}/classes">
+            <src path="${src_path}"/>
         </javac>
         <echo>Compile project...</echo>
     </target>
     <target name="makejar" depends="compile" description="making jar file">
-        <jar destfile="build/MyFirstAntJarFile.jar">
-            <fileset dir="${builtdir}/classes">
-                <include name="**/*.class" />
-            </fileset>
-            <zipgroupfileset dir="lib" includes="*.jar" />
+        <manifest file="${builtdir}/MANIFEST.MF">
+            <attribute name="Main-Class" value="dz_FileManager.FileManager"/>
+        </manifest>
 
+        <jar destfile="build/FileManager.jar" manifest="${builtdir}/MANIFEST.MF">
+            <fileset dir="${builtdir}/classes">
+                <include name="**/*.class"/>
+            </fileset>
+            <!--<zipgroupfileset dir="lib" includes="*.jar" />-->
         </jar>
     </target>
     <target name="all" depends="makejar" description="demo target">

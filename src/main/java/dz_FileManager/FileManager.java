@@ -44,7 +44,7 @@ public class FileManager extends JFrame {
     private void folderAction() {
         String sel = list.getSelectedValue();
         if (sel != null) {
-            if (sel.equals("..")) {
+            if (sel.equals("src/test")) {
                 String dir = new File(path).getParent();
                 if (dir != null) {
                     path = dir;
@@ -100,7 +100,7 @@ public class FileManager extends JFrame {
     private void getInfoAction() {
         String sel = list.getSelectedValue().replace("DIR", "").trim();
         if (sel != null) {
-            if (!sel.equals("..")) {
+            if (!sel.equals("src/test")) {
                 tp.setText(getFileInfoString(new File(path + "/" + sel)));
             }
         }
@@ -114,7 +114,7 @@ public class FileManager extends JFrame {
                 List<String> res = new ArrayList<>();
                 List<String> fres = new ArrayList<>();
 
-                res.add("..");
+                res.add("src/test");
                 String fname;
                 int fnameMaxLength = 45;
                 for (File f : Objects.requireNonNull(files)) {
@@ -155,7 +155,7 @@ public class FileManager extends JFrame {
     private void deleteAction() throws IOException {
         String value = list.getSelectedValue();
         if (value != null) {
-            if (!value.equals("..")) {
+            if (!value.equals("src/test")) {
                 value = value.replace("DIR", "").trim();
                 Path selFile = Paths.get(path + "/" + value);
                 if (Files.exists(selFile)) {
@@ -187,7 +187,7 @@ public class FileManager extends JFrame {
     private void copyMove(ActionEvent e) {
         String value = list.getSelectedValue();
         if (value != null) {
-            if (!value.equals("..")) {
+            if (!value.equals("src/test")) {
                 chooser.setCurrentDirectory(new File(path));
                 if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                     File selFile = chooser.getSelectedFile();
@@ -374,7 +374,7 @@ public class FileManager extends JFrame {
                 if (code == KeyEvent.VK_ENTER) {
                     folderAction();
                 } else if (code == KeyEvent.VK_BACK_SPACE) {
-                    list.setSelectedValue("..", false);
+                    list.setSelectedValue("src/test", false);
                     folderAction();
                 } else if (code == KeyEvent.VK_F1) {
                     buttonAbout.doClick();

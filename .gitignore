@@ -8,3 +8,5 @@ out/
 *.jpg
 *.zip
 *.jar
+build/
+target/
